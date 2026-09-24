@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block heading %}Computer Inventory{% endblock %}
+{% block content %}
+{% if session.get('role')=='admin' %}
+<div class="card"><div class="cardhead"><h2>Add Computer</h2></div>
+<form class="formgrid" method="post" action="{{url_for('add_computer')}}">
+<select name="lab_id" required>{% for l in labs %}<option value="{{l.id}}">{{l.name}}</option>{% endfor %}</select>
+<input name="asset_tag" placeholder="Asset Tag (e.g. PC-101)" required><input name="computer_name" placeholder="Computer Name" required>
+<input name="ip_address" placeholder="IP Address"><input name="specs" placeholder="Specifications">
+<select name="status"><option>Working</option><option>Under Maintenance</option><option>Faulty</option><option>Offline</option></select><button class="btn primary">Add</button>
+</form></div>
+{% endif %}
+<div class="card"><div class="cardhead"><h2>All Computers</h2><input id="search" class="search" placeholder="Search..."></div>
+<div class="tablewrap"><table id="dataTable"><thead><tr><th>Asset</th><th>Name</th><th>Lab</th><th>IP</th><th>Specs</th><th>Status</th>{% if session.get('role')=='admin' %}<th>Update</th>{% endif %}</tr></thead><tbody>
+{% for c in computers %}<tr><td><b>{{c.asset_tag}}</b></td><td>{{c.computer_name}}</td><td>{{c.lab_name}}</td><td>{{c.ip_address}}</td><td>{{c.specs}}</td><td><span class="badge {{c.status|lower|replace(' ','-')}}">{{c.status}}</span></td>{% if session.get('role')=='admin' %}<td><form method="post" action="{{url_for('computer_status',cid=c.id)}}"><select name="status" onchange="this.form.submit()"><option {{'selected' if c.status=='Working'}}>Working</option><option {{'selected' if c.status=='Under Maintenance'}}>Under Maintenance</option><option {{'selected' if c.status=='Faulty'}}>Faulty</option><option {{'selected' if c.status=='Offline'}}>Offline</option></select></form></td>{% endif %}</tr>{% endfor %}
+</tbody></table></div></div>
+<script>document.getElementById('search').addEventListener('input',e=>{let q=e.target.value.toLowerCase();document.querySelectorAll('#dataTable tbody tr').forEach(r=>r.style.display=r.innerText.toLowerCase().includes(q)?'':'none')})</script>
+{% endblock %}

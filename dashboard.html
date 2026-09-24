@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block heading %}Dashboard{% endblock %}
+{% block content %}
+<div class="stats">
+<div class="stat"><span>Labs</span><strong>{{stats.labs}}</strong><i>▦</i></div>
+<div class="stat"><span>Total Computers</span><strong>{{stats.computers}}</strong><i>▣</i></div>
+<div class="stat"><span>Working PCs</span><strong>{{stats.working}}</strong><i>✓</i></div>
+<div class="stat"><span>Open Complaints</span><strong>{{stats.complaints}}</strong><i>⚑</i></div>
+</div>
+<div class="grid2">
+<section class="card"><div class="cardhead"><h2>System Overview</h2></div>
+<div class="chart"><div class="bar" style="height:85%"><span>{{stats.working}}</span></div><div class="bar" style="height:35%"><span>{{stats.computers-stats.working}}</span></div><div class="bar" style="height:55%"><span>{{stats.complaints}}</span></div></div>
+<div class="legend"><span>Working PCs</span><span>Maintenance</span><span>Open Issues</span></div></section>
+<section class="card"><div class="cardhead"><h2>Recent Complaints</h2><a href="{{url_for('complaints')}}">View all</a></div>
+{% for x in recent %}<div class="listrow"><div><b>{{x.title}}</b><small>{{x.lab_name or 'General'}} · {{x.user_name}}</small></div><span class="badge {{x.status|lower|replace(' ','-')}}">{{x.status}}</span></div>{% else %}<p class="muted">No complaints yet.</p>{% endfor %}
+</section></div>
+<div class="quick"><a href="{{url_for('bookings')}}">+ Request Lab Booking</a><a href="{{url_for('complaints')}}">+ Report an Issue</a><a href="{{url_for('computers')}}">View Computer Inventory</a></div>
+{% endblock %}
