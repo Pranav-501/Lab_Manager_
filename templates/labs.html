@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block heading %}Labs{% endblock %}
+{% block content %}
+<div class="cards">
+{% for l in labs %}
+<div class="card labcard"><div class="labicon">▦</div><div><h2>{{l.name}}</h2><p class="muted">{{l.room}} · Capacity {{l.capacity}}</p></div><div class="progress"><span style="width:{{(l.working / l.computers * 100) if l.computers else 0}}%"></span></div><div class="labmeta"><b>{{l.working or 0}} / {{l.computers or 0}}</b> computers working <span class="badge available">{{l.status}}</span></div></div>
+{% endfor %}
+</div>
+{% endblock %}

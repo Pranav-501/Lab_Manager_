@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Login | IT Lab{% endblock %}
+{% block auth %}
+<div class="login-page">
+<div class="login-card">
+<div class="brand big">IT<span>LAB</span></div>
+<h1>Welcome back</h1><p class="muted">Sign in to manage your institute's IT labs.</p>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% for category,msg in messages %}<div class="flash {{category}}">{{msg}}</div>{% endfor %}
+{% endwith %}
+<form method="post">
+<label>Email</label><input type="email" name="email" placeholder="admin@itlab.local" required>
+<label>Password</label><input type="password" name="password" placeholder="••••••••" required>
+<button class="btn primary full">Sign In</button>
+</form>
+<div class="demo"><b>Demo accounts</b><br>Admin: admin@itlab.local / admin123<br>Staff: staff@itlab.local / staff123</div>
+</div></div>
+{% endblock %}

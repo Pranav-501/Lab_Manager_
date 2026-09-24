@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block heading %}Equipment{% endblock %}
+{% block content %}
+{% if session.get('role')=='admin' %}<div class="card"><div class="cardhead"><h2>Add Equipment</h2></div><form class="formgrid" method="post" action="{{url_for('add_equipment')}}"><input name="name" placeholder="Equipment name" required><input name="category" placeholder="Category"><input name="quantity" type="number" min="1" value="1"><select name="condition"><option>Good</option><option>Needs Repair</option><option>Damaged</option></select><input name="location" placeholder="Location"><button class="btn primary">Add</button></form></div>{% endif %}
+<div class="card"><div class="tablewrap"><table><thead><tr><th>Equipment</th><th>Category</th><th>Quantity</th><th>Condition</th><th>Location</th></tr></thead><tbody>{% for e in equipment %}<tr><td><b>{{e.name}}</b></td><td>{{e.category}}</td><td>{{e.quantity}}</td><td><span class="badge">{{e.condition}}</span></td><td>{{e.location}}</td></tr>{% endfor %}</tbody></table></div></div>
+{% endblock %}
